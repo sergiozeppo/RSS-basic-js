@@ -2,7 +2,7 @@ const { NotImplementedError } = require("../extensions/index.js");
 
 /**
  * Implement class DepthCalculator with method calculateDepth
- * that calculates deoth of nested array
+ * that calculates depth of nested array
  *
  * @example
  *
@@ -14,15 +14,16 @@ const { NotImplementedError } = require("../extensions/index.js");
  */
 class DepthCalculator {
   calculateDepth(arr) {
-    let i = 0;
-    while (arr.length) {
-      i++;
-      arr = arr.reduce((level, element) => {
-        if (Array.isArray(element)) level.push(...element);
-        return level;
-      }, []);
+    if (!Array.isArray(arr)) {
+      return 0;
     }
-    return i;
+    let depth = 0;
+    for (let item of arr) {
+      if (Array.isArray(item)) {
+        depth = Math.max(depth, this.calculateDepth(item));
+      }
+    }
+    return depth + 1;
   }
 }
 
